@@ -1,40 +1,76 @@
 import './App.css'
 import Home from './pages/Home'
-import New from './pages/New'
 import Diary from './pages/Diary'
-import { Routes, Route, Link, useNavigate } from 'react-router-dom'
+import New from './pages/New'
+import Edit from './pages/Edit'
 import NotFound from './pages/NotFound'
-import { getEmotionImage } from './util/get-emotion-image'
+import { Routes, Route } from 'react-router-dom'
+import { createContext, useReducer } from 'react'
+import { v4 as uuid } from 'uuid'
+import { mockData } from './mockData'
 
+function reducer(state, action) {
+  switch (action.type) {
+    case 'CREATE': return [action.data, ...state]
+    case 'UPDATE': return state.map(diary => diary.id === action.data.id ? action.data : diary)
+    case 'DELETE': return state.filter(diary => diary.id !== action.id)
+    default: return state
+  }
+}
+
+export const DiaryStateContext = createContext()
+export const DiaryDispatchContext = createContext()
 
 function App() {
-  const navigate = useNavigate()
+  const [data, dispatch] = useReducer(reducer, mockData)
 
-  const handleNewPageButton = () => {
-    navigate('/new')
+  // add new diary
+  const handleCreate = (createdData, emotionId, content) => {
+    dispatch({
+      type: "CREATE",
+      data: {
+        id: uuid(),
+        createdData,
+        emotionId,
+        content
+      }
+    })
+  }
+
+  // modify a diary
+  const handleUpdate = (id, createdData, emotionId, content) => {
+    dispatch({
+      type: "UPDATE",
+      data: {
+        id,
+        createdData,
+        emotionId,
+        content
+      }
+    })
+  }
+
+  // delete a diary
+  const handleDelete = (id) => {
+    dispatch({
+      type: "DELETE",
+      id
+    })
   }
 
   return (
     <>
-      <div>
-        <img src={getEmotionImage(1)} />
-        <img src={getEmotionImage(2)} />
-        <img src={getEmotionImage(3)} />
-        <img src={getEmotionImage(4)} />
-        <img src={getEmotionImage(5)} />
-      </div>
-      <nav>
-        <Link to={'/'}>Home</Link>
-        <Link to={'/new'}>New</Link>
-        <Link to={'/diary'}>Diary</Link>
-      </nav>
-      <button onClick={handleNewPageButton}>New 페이지로 이동</button>
-      <Routes>
-        <Route path='/' element={<Home />} />
-        <Route path='/new' element={<New />} />
-        <Route path='/diary/:diary_id' element={<Diary />} />
-        <Route path='*' element={<NotFound />} />
-      </Routes>
+      <DiaryStateContext.Provider value={data}>
+        <DiaryDispatchContext.Provider value={{handleCreate, handleUpdate, handleDelete}}>
+          <Routes>
+            <Route path='/' element={<Home />} />
+            <Route path='/new' element={<New />} />
+            <Route path='/diary/:id' element={<Diary />} />
+            <Route path='/edit/:id' element={<Edit />} />
+            <Route path='*' element={<NotFound />} />
+          </Routes>
+        </DiaryDispatchContext.Provider>
+      </DiaryStateContext.Provider>
     </>
   )
 }

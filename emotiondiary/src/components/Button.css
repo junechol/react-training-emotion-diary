@@ -1,0 +1,28 @@
+.Button {
+    background-color: rgb(236,236,236);
+    cursor:pointer;
+    border: none;
+    border-radius: 5px;
+    padding: 10px 20px;
+    font-size: 18px;
+    white-space: nowrap;
+}
+.Button:hover {
+    background-color: rgb(196,196,196);
+}
+
+.Button_NEGATIVE {
+    background-color: rgb(216, 120, 120);
+    color:white;
+}
+.Button_NEGATIVE:hover {
+    background-color: rgb(196, 80, 80);
+}
+
+.Button_POSITIVE {
+    background-color: rgb(120, 216, 120);
+    color:white;
+}
+.Button_POSITIVE:hover {
+    background-color: rgb(80, 196, 80);
+}
