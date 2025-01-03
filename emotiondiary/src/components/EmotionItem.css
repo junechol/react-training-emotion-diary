@@ -1,0 +1,45 @@
+.EmotionItem {
+  background-color: rgb(236,236,236);
+  padding: 10px 10px;
+  border: 4px rgba(255,255,255,0) solid;
+  border-radius: 5px;
+  width: 50px;
+  height: 60px;
+  text-align: center;
+  cursor: pointer;
+}
+
+.EmotionItem:active {
+  border: 4px rgb(58, 58, 58) solid;
+}
+
+.EmotionItem img {
+  width: 30px;
+  margin: 4px 0;
+}
+
+.EmotionItem h4 {
+  text-align: center;
+  margin: 0;
+}
+
+.EmotionItem_1_selected {
+  background-color: rgb(100, 201, 100);
+  color: white;
+}
+.EmotionItem_2_selected {
+  background-color: rgb(157, 215, 114);
+  color: white;
+}
+.EmotionItem_3_selected {
+  background-color: rgb(253, 206, 23);
+  color: white;
+}
+.EmotionItem_4_selected {
+  background-color: rgb(253, 132, 70);
+  color: white;
+}
+.EmotionItem_5_selected {
+  background-color: rgb(253, 86, 95);
+  color: white;
+}
